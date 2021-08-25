@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
+  },
+  "prettier": {
+    "tabWidth": 4
   }
 }
