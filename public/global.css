@@ -1,68 +1,42 @@
-html,
-body {
-    position: relative;
-    width: 100%;
-    height: 100%;
+:root {
+    --prussian-blue: hsla(212, 90%, 20%, 1);
+    --blue-sapphire: hsla(198, 100%, 23%, 1);
+    --emerald: hsla(138, 51%, 63%, 1);
+    --little-boy-blue: hsla(215, 69%, 67%, 1);
+    --dark-orange: hsla(30, 100%, 53%, 1);
+    --marigold: hsla(40, 94%, 49%, 1);
+
+    --color-primary-default: 30, 100%, 53%;
+    --color-primary-active: 40, 94%, 49%;
+    --color-primary-disabled: 30, 50%, 53%;
+    --color-secondary-default: 138, 51%, 63%;
+    --color-secondary-active: 138, 51%, 73%;
+    --color-secondary-disabled: 138, 31%, 53%;
+    --color-default-default: 212, 90%, 40%;
+    --color-default-active: 215, 69%, 87%;
+    --color-default-disabled: 198, 100%, 43%;
+    --color-background-default: 212, 90%, 10%;
+    --color-background-active: 215, 69%, 47%;
+    --color-background-disabled: 198, 100%, 13%;
+
+    font-family: "Roboto Mono", monospace;
+    color: hsla(var(--color-default-default), 1);
 }
 
-body {
-    color: #333;
+* {
     margin: 0;
-    padding: 8px;
+    padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-a {
-    color: rgb(0, 100, 200);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-a:visited {
-    color: rgb(0, 80, 160);
-}
-
-label {
-    display: block;
-}
-
-input,
-button,
-select,
-textarea {
-    font-family: inherit;
-    font-size: inherit;
-    -webkit-padding: 0.4em 0;
-    padding: 0.4em;
-    margin: 0 0 0.5em 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-
-input:disabled {
-    color: #ccc;
+html {
+    background-color: hsla(var(--color-background-default), 1);
 }
 
 button {
-    color: #333;
-    background-color: #f4f4f4;
-    outline: none;
-}
-
-button:disabled {
-    color: #999;
-}
-
-button:not(:disabled):active {
-    background-color: #ddd;
-}
-
-button:focus {
-    border-color: #666;
+    border: 1px solid hsla(var(--color-default-default), 1);
+    border-radius: 4px;
+    background-color: hsla(var(--color-default-default), 0.3);
+    color: hsla(var(--color-default-default), 1);
+    padding: 0.5em 1em;
 }
