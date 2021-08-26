@@ -1,23 +1,29 @@
 <script>
     import AppBar from "./components/AppBar.svelte";
     import LoanType from "./components/LoanType.svelte";
-    import { loans } from "./data/api.js";
-    const loanListPromise = loans.getAll();
+    import { loanTypes, loaded } from "./data/api.js";
+    const loanListPromise = loanTypes.getAll();
 </script>
 
 <main>
-    <AppBar class="app-bar" />
-    <aside>
-        <span>Loans</span>
-    </aside>
-    <section class="content">
-        <h3>Loans</h3>
-        <div class="list">
-            {#each $loans as loan}
-                <LoanType {loan} />
-            {/each}
-        </div>
-    </section>
+    {#await loaded}
+        <div class="spinner" />
+    {:then}
+        <AppBar class="app-bar" />
+        <aside>
+            <span>Loans</span>
+        </aside>
+        <section class="content">
+            <h3>Loans</h3>
+            <div class="list">
+                {#each $loanTypes as loan}
+                    <LoanType {loan} />
+                {/each}
+            </div>
+        </section>
+    {:catch err}
+        <pre>{err.toString()}</pre>
+    {/await}
 </main>
 
 <style>
@@ -63,5 +69,28 @@
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
+    }
+
+    @keyframes spin {
+        from {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+
+    .spinner {
+        width: 10rem;
+        height: 10rem;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        animation: spin 1s linear infinite;
+        border: 0.5em solid hsla(var(--color-default-default), 1);
+        border-bottom-color: transparent;
+        border-right-color: transparent;
+        border-radius: 50%;
     }
 </style>
