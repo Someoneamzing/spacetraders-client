@@ -49,11 +49,6 @@ export default {
                 dev: !production,
             },
         }),
-        replace({
-            process: JSON.stringify({
-                env: dotenv.config().parsed,
-            }),
-        }),
         // we'll extract any component CSS out into
         // a separate file - better for performance
         css({ output: "bundle.css" }),
@@ -66,6 +61,9 @@ export default {
         resolve({
             browser: true,
             dedupe: ["svelte"],
+        }),
+        replace({
+            "process.env": JSON.stringify(dotenv.config().parsed),
         }),
         commonjs(),
 
