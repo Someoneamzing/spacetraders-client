@@ -15,4 +15,6 @@
     export let type;
 </script>
 
-<Attribute icon={RESOURCE_TYPES[type]}>{sepThousands(amount)}</Attribute>
+<Attribute icon={RESOURCE_TYPES[type]}
+    >{!isNaN(amount) ? sepThousands(amount) : "----"}</Attribute
+>
