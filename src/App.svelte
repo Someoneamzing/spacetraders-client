@@ -1,8 +1,8 @@
 <script>
     import AppBar from "./components/AppBar.svelte";
+    import Loan from "./components/Loan.svelte";
     import LoanType from "./components/LoanType.svelte";
-    import { loanTypes, loaded } from "./data/api.js";
-    const loanListPromise = loanTypes.getAll();
+    import { loanTypes, loaded, loans } from "./data/api.js";
 </script>
 
 <main>
@@ -16,8 +16,8 @@
         <section class="content">
             <h3>Loans</h3>
             <div class="list">
-                {#each $loanTypes as loan}
-                    <LoanType {loan} />
+                {#each [...$loans] as [loanId, loan]}
+                    <Loan {loan} />
                 {/each}
             </div>
         </section>
