@@ -1,8 +1,39 @@
-<script>
+<script context="module">
     import AppBar from "./components/AppBar.svelte";
+    import AssetList from "./components/AssetList.svelte";
     import Loan from "./components/Loan.svelte";
     import LoanType from "./components/LoanType.svelte";
     import { loanTypes, loaded, loans } from "./data/api.js";
+
+    const pages = [
+        {
+            title: "Loans",
+            store: loans,
+            component: Loan,
+            type: "loan",
+            actions: [["Pay", () => {}]],
+        },
+        {
+            title: "Loan Types",
+            store: loanTypes,
+            component: LoanType,
+            type: "loan",
+            actions: [["Borrow", () => {}]],
+        },
+    ];
+</script>
+
+<script>
+    let pageIndex = 0;
+    let storeValue = null;
+    let unsubscribe = null;
+    $: page = pages[pageIndex];
+    $: {
+        unsubscribe?.();
+        unsubscribe = page.store.subscribe((value) => {
+            storeValue = value;
+        });
+    }
 </script>
 
 <main>
@@ -11,15 +42,25 @@
     {:then}
         <AppBar class="app-bar" />
         <aside>
-            <span>Loans</span>
+            {#each pages as p, i}
+                <span
+                    on:click={() => {
+                        pageIndex = i;
+                    }}
+                    class:active={pageIndex === i}
+                >
+                    {p.title}
+                </span>
+            {/each}
         </aside>
         <section class="content">
-            <h3>Loans</h3>
-            <div class="list">
-                {#each [...$loans] as [loanId, loan]}
-                    <Loan {loan} />
-                {/each}
-            </div>
+            <AssetList
+                list={[...storeValue].map(([, item]) => item)}
+                itemProp={page.type}
+                ItemComponent={page.component}
+                title={page.title}
+                actions={page.actions}
+            />
         </section>
     {:catch err}
         <pre>{err.toString()}</pre>
@@ -42,10 +83,6 @@
         grid-area: bar;
     }
 
-    h3 {
-        line-height: 1;
-    }
-
     aside {
         grid-area: left-sidebar;
         min-width: 10rem;
@@ -58,17 +95,18 @@
         padding: 0.5em 1em;
     }
 
+    aside > span.active {
+        color: hsla(var(--color-default-active), 1);
+    }
+
+    aside > span:hover {
+        background-color: hsla(var(--color-default-active), 0.3);
+        color: hsla(var(--color-default-active), 1);
+    }
+
     .content {
         grid-area: content;
         padding: 1em;
-    }
-
-    .list {
-        padding-top: 1em;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
     }
 
     @keyframes spin {
