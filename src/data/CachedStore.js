@@ -25,7 +25,7 @@ export default class CachedStore extends EventEmitter {
             ...data,
             cacheTime: new Date(),
         });
-        const sendOut = [...this.cache.values()];
+        const sendOut = this.cache;
         this.subscribers.forEach((sub) => sub(sendOut));
         this.emit("change", id, this.cache.get(id));
     }
@@ -56,7 +56,8 @@ export default class CachedStore extends EventEmitter {
 
     subscribe(subscription) {
         this.subscribers.add(subscription);
-        subscription([...this.cache.values()]);
+        subscription(this.cache);
+        if (this.subscribers.size === 1) this.getAll();
         return () => this.subscribers.delete(subscription);
     }
 }
