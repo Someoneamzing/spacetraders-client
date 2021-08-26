@@ -4,16 +4,13 @@ export default class APIContext {
         this.accessToken = accessToken;
     }
 
-    async fetch(url, options, withAuth = true) {
-        const config = {
-            ...options,
-            headers: {
-                ...options.headers,
-            },
-        };
-        if (withAuth) config.headers["Authorization"] = this.accessToken;
+    async fetch(url, options = {}, withAuth = true) {
+        const config = options;
+        if (!config.headers) config.headers = {};
+        if (withAuth)
+            config.headers["Authorization"] = `Bearer ${this.accessToken}`;
         const response = await fetch(new URL(url, this.basePath), config);
-        if (!response.ok())
+        if (!response.ok)
             throw new Error(
                 `${response.statusText} "${await response.text()}"`
             );
